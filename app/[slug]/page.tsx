@@ -22,13 +22,13 @@ export default async function BlogPage({ params }: { params: { slug: string } })
   return (
     <div className="flex flex-col items-center py-10 space-y-10">
 
-      <header>
-        <h1 className="text-5xl font-bold">{title}</h1>
-        <small>{subtitle}</small>
+      <header className="space-y-2">
+        <h1 className="text-2xl text-center md:text-3xl font-bold">{title}</h1>
+        <small className="text-center">{subtitle}</small>
         <div className="flex space-x-4 justify-center items-center">
-          <p className="flex space-x-2"><Calendar /> <span>{publishDate}</span></p>
+          <p className="flex space-x-2 items-center"><Calendar size={20} /> <span>{publishDate}</span></p>
           <span>|</span>
-          <p className="flex space-x-2"><Clock /> <span>{readTime}</span></p>
+          <p className="flex space-x-2 items-center"><Clock size={20} /> <span>{readTime}</span></p>
         </div>
       </header>
 
