@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function BlogPageLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen relative">
-        <Link href={'/'}><Button size={'icon'} className="rounded-full fixed left-[85%] bottom-5" ><Home size={20} /></Button></Link>
+        <Link href={'/'}><Button size={'icon'} className="rounded-full fixed left-[85%] md:left-1/2 bottom-5" ><Home size={20} /></Button></Link>
         {children}
     </div>
   )
