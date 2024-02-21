@@ -1,12 +1,10 @@
 import { getBlogEntries } from "@/lib/get-blog-entries";
-import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
 
   const blogEntries = await getBlogEntries();
   const posts = blogEntries.items
-  console.log(posts);
 
   return (
     <main className="flex min-h-screen flex-col items-center space-y-20 p-24">

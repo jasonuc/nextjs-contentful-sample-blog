@@ -15,8 +15,6 @@ export default async function BlogPage({ params }: { params: { slug: string } })
   const { slug } = params;
   const blogEntry = await getBlogEntry(slug);
   const { title, subtitle, publishDate, readTime, postContent } = blogEntry.fields
-  console.log(blogEntry)
-
 
   return (
     <div>
@@ -25,7 +23,7 @@ export default async function BlogPage({ params }: { params: { slug: string } })
         <p>Publish Date: {publishDate}</p>
         <p>Read Time: {readTime}</p>
 
-        <div className="prose prose-2xl">
+        <div className="prose">
          { documentToReactComponents(postContent) }
         </div>
     </div>
