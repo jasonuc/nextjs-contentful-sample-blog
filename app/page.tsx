@@ -1,3 +1,4 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBlogEntries } from "@/lib/get-blog-entries";
 import Link from "next/link";
 
@@ -7,18 +8,23 @@ export default async function Home() {
   const posts = blogEntries.items
 
   return (
-    <main className="flex min-h-screen flex-col items-center space-y-20 p-24">
+    <main className="flex min-h-screen flex-col items-center space-y-20 p-10">
       <h1 className="font-bold text-3xl">Blog Posts</h1>
 
-      <div className="mt-10 grid grid-cols-2 gap-10">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
 
         {posts.map((post) => (
-          <Link href={`/${post.fields.slug}`} key={post.sys.id} className="relative aspect-square min-w-80 flex flex-col items-center justify-center space-y-3 rounded border backdrop-blur-md">
-            <div className="absolute top-0 left-0 w-full h-full bg-black/20" />
-            <h2 className="text-xl">{post.fields.title}</h2>
-            <small>{post.fields.title}</small>
-            <p>Read time: {post.fields.readTime}</p>
-            <p>Publish date: {post.fields.publishDate}</p>
+          <Link href={`/${post.fields.slug}`} key={post.sys.id} className="">
+            <Card className="hover:shadow-xl transition-all duration-300 ease-in-out min-h-[12rem]">
+              <CardHeader>
+                <CardTitle>{post.fields.title}</CardTitle>
+                <CardDescription>{post.fields.subtitle}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p><strong>Read time:</strong>  <span className="underline underline-offset-2">{post.fields.readTime}</span></p>
+                <p><strong>Publish date:</strong> <span className="underline underline-offset-2">{post.fields.publishDate}</span></p>
+              </CardContent>
+            </Card>
           </Link>
         ))}
 
