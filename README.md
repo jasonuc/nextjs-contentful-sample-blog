@@ -109,6 +109,7 @@ export const getBlogEntries = async () => {
    - It includes the following fields:
      - `contentTypeId`: Represents the type ID of the Contentful entry, which should be `"blogPost"`.
      - `fields`: An object containing the fields of the blog post entry, where each field is typed according to its Contentful field type.
+       - We make use of `EntryFieldTypes` from **Contentful** so that we are able to access the types provided my **Contentful** like `EntryFieldTypes.RichText` which would be the type for the Blog Post content (written in markdown). The other types are self-explanatory :)
 
 3. **Function Definition**:
    ```ts
