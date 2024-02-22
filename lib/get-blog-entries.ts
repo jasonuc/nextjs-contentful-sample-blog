@@ -1,7 +1,7 @@
 import { client } from "@/lib/create-client";
 import { EntryFieldTypes } from "contentful";
 
-interface BlogPostSkeleton {
+interface BlogPostInterface {
     contentTypeId: "blogPost";
     fields: {
         title: EntryFieldTypes.Text
@@ -14,12 +14,12 @@ interface BlogPostSkeleton {
 }
 
 export const getBlogEntries = async () => {
-    const entries = await client.getEntries<BlogPostSkeleton>({ content_type: "blogPost" });
+    const entries = await client.getEntries<BlogPostInterface>({ content_type: "blogPost" });
     return entries;
 }
 
 export const getBlogEntry = async (slug: string) => {
-    const entryQuery = await client.getEntries<BlogPostSkeleton>({ 
+    const entryQuery = await client.getEntries<BlogPostInterface>({ 
         content_type: "blogPost",
         "fields.slug[match]": slug
     })

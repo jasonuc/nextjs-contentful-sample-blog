@@ -20,7 +20,7 @@ Then install Contentful using
 npm i contentful
 ```
 
-Now that Contentful library is installed, make a new file `lib/create-client.ts`, here we configure the contentful client.
+Now that Contentful library is installed, make a new file `lib/create-client.ts`, now we set up the connection with **Contentful**, in order to retrieve data from our blog.
 
 ```ts
 import { ContentfulClientApi, createClient } from "contentful";
@@ -36,4 +36,94 @@ Remember to paste the API Keys in your `.env.local` file. To retreive them open 
 CONTENTFUL_SPACE_ID=********
 CONTENTFUL_CONTENT_DELIVERY_ACCESS_TOKEN=***************
 ```
-Now they can be accessed when prefixed with `process.env`
+Now the **API keys** can be accessed when prefixed with `process.env`
+
+Now open the `/app/page.tsx` and add this (you can design it any how you want this is just my version)
+```tsx
+export default async function Home() {
+
+  return (
+    <main className="flex min-h-screen flex-col items-center space-y-20 p-10">
+      <h1 className="font-bold text-3xl">Next.JS + Contentful Sample Blog</h1>
+
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <p>Blog posts go here</p>
+      </div>
+    </main>
+  );
+}
+```
+
+![Step 1 Image](public/Step-1.jpeg)
+
+Now before we can access the blog posts you have to fetch the blog entries from **Contentful**.
+
+Create a new file `/lib/get-blog-entries.ts`
+```ts
+import { client } from "@/lib/create-client";
+import { EntryFieldTypes } from "contentful";
+
+interface BlogPostInterface {
+    contentTypeId: "blogPost";
+    fields: {
+        title: EntryFieldTypes.Text
+        subtitle: EntryFieldTypes.Text
+        slug: EntryFieldTypes.Text
+        publishDate: EntryFieldTypes.Text
+        readTime: EntryFieldTypes.Number
+        postContent: EntryFieldTypes.RichText
+    }
+}
+
+export const getBlogEntries = async () => {
+    const entries = await client.getEntries<BlogPostInterface>({ content_type: "blogPost" });
+    return entries;
+}
+```
+
+1. **Import Statements**:
+   ```ts
+   import { client } from "@/lib/create-client";
+   import { EntryFieldTypes } from "contentful";
+   ```
+
+   - The first import statement imports the `client` object from the `create-client.ts` file located in the `lib` directory. This `client` object is responsible for interacting with the **Contentful API**.
+   - The second import statement imports `EntryFieldTypes` from the `contentful` package. This is used to define the types of fields in Contentful entries.
+
+2. **Interface Definition**:
+   ```ts
+   interface BlogPostInterface {
+       contentTypeId: "blogPost";
+       fields: {
+           title: EntryFieldTypes.Text
+           subtitle: EntryFieldTypes.Text
+           slug: EntryFieldTypes.Text
+           publishDate: EntryFieldTypes.Text
+           readTime: EntryFieldTypes.Number
+           postContent: EntryFieldTypes.RichText
+       }
+   }
+   ```
+
+   - This defines an interface named `BlogPostInterface` to represent the structure of a blog post entry fetched from Contentful.
+   - It includes the following fields:
+     - `contentTypeId`: Represents the type ID of the Contentful entry, which should be `"blogPost"`.
+     - `fields`: An object containing the fields of the blog post entry, where each field is typed according to its Contentful field type.
+
+3. **Function Definition**:
+   ```ts
+   export const getBlogEntries = async () => {
+       const entries = await client.getEntries<BlogPostInterface>({ content_type: "blogPost" });
+       return entries;
+   }
+   ```
+
+   - This exports a function named `getBlogEntries` responsible for fetching blog post entries from Contentful.
+   - It is an asynchronous function (using `async` keyword) because fetching data from Contentful is an asynchronous operation.
+   - Inside the function:
+     - It uses the `client` object to call `getEntries`, which fetches entries from Contentful.
+     - `<BlogPostInterface>` specifies the type of entries that should be returned, ensuring type safety.
+     - `{ content_type: "blogPost" }` specifies the content type of the entries to be fetched, which should be `"blogPost"`.
+     - The function returns the fetched entries.
+
+Overall, this code sets up a function to fetch blog post entries from Contentful and ensures type safety by defining an interface to represent the structure of these entries.
