@@ -1,10 +1,15 @@
 # Next.js & Contentful Sample Blog
 
-*A guide to build a blog using Contentful CMS with Next.js*
+*A guide to building a blog using Contentful CMS with Next.js*
 
 ### Preview of the sample blog
-![Preview of Home Page](public/Preview-Home.jpeg)
-![Preview of Blog Post](public/Preview-Blog-Post.jpeg)
+<!-- ![Preview of Home Page](public/Preview-Home.jpeg) -->
+<!-- ![Preview of Blog Post](public/Preview-Blog-Post.jpeg) -->
+
+<table>
+<td><img src="public/Preview-Home.jpeg" alt="Preview of Home Page" /></td>
+<td><img src="public/Preview-Blog-Post.jpeg" alt="Preview of Blog Post" /></td>
+</table>
 
 <hr />
 
@@ -14,7 +19,7 @@
 npx create-next-app@latest nextjs-contentful-sample-blog --ts
 ```
 
-Then install Contentful using 
+Then install Contentful
 
 ```zsh
 npm i contentful
@@ -63,7 +68,7 @@ Create a new file `/lib/get-blog-entries.ts`
 import { client } from "@/lib/create-client";
 import { EntryFieldTypes } from "contentful";
 
-interface BlogPostInterface {
+export interface BlogPostInterface {
     contentTypeId: "blogPost";
     fields: {
         title: EntryFieldTypes.Text
@@ -128,3 +133,45 @@ export const getBlogEntries = async () => {
      - The function returns the fetched entries.
 
 Overall, this code sets up a function to fetch blog post entries from Contentful and ensures type safety by defining an interface to represent the structure of these entries.
+
+Now the blog posts can be fetched from **Contentful**. Open `app/page.tsx`
+```tsx
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BlogPostInterface, getBlogEntries } from "@/lib/get-blog-entries";
+import { Entry } from "contentful";
+import Link from "next/link";
+
+export default async function Home() {
+
+  const blogEntries = await getBlogEntries();
+  const posts: Entry<BlogPostInterface, undefined, string>[] = blogEntries.items
+
+  return (
+    <main className="flex min-h-screen flex-col items-center space-y-20 p-10">
+      <h1 className="font-bold text-3xl">Next.JS + Contentful Sample Blog</h1>
+
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        {posts.map((post) => (
+          <Link href={`/${post.fields.slug}`} key={post.sys.id} className="">
+            <Card className="hover:shadow-xl transition-all duration-300 ease-in-out min-h-[12rem]">
+              <CardHeader>
+                <CardTitle>{post.fields.title}</CardTitle>
+                <CardDescription>{post.fields.subtitle}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p><strong>Read time:</strong>  <span className="underline underline-offset-2">{post.fields.readTime}</span></p>
+                <p><strong>Publish date:</strong> <span className="underline underline-offset-2">{post.fields.publishDate}</span></p>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+
+      </div>
+    </main>
+  );
+}
+```
+Now you should have something that looks like this:
+![Preview of Home Page](public/Preview-Home.jpeg)
+I am making use of Shadcn-UI for the *blog* to look mordern and i can spend less time on *styling* ^0^

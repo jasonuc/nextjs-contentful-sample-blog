@@ -1,7 +1,7 @@
 import { client } from "@/lib/create-client";
 import { EntryFieldTypes } from "contentful";
 
-interface BlogPostInterface {
+export interface BlogPostInterface {
     contentTypeId: "blogPost";
     fields: {
         title: EntryFieldTypes.Text
