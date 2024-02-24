@@ -174,4 +174,5 @@ export default async function Home() {
 ```
 Now you should have something that looks like this:
 ![Preview of Home Page](public/Preview-Home.jpeg)
-I am making use of Shadcn-UI for the *blog* to look mordern and i can spend less time on *styling* ^0^
+I am making use of Shadcn-UI for the *blog* to look mordern and i can spend less time on *styling*
+
