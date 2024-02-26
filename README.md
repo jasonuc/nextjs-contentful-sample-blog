@@ -136,7 +136,7 @@ Overall, this code sets up a function to fetch blog post entries from Contentful
 
 Now the blog posts can be fetched from **Contentful**. Open `app/page.tsx`
 ```tsx
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"; // These components are from Shadcn-UI
 import { BlogPostInterface, getBlogEntries } from "@/lib/get-blog-entries";
 import { Entry } from "contentful";
 import Link from "next/link";
